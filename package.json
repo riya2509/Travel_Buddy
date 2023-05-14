@@ -1,0 +1,17 @@
+{
+  "name": "main",
+  "workspaces": ["frontend" ,"backend"],
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "fe": "yarn workspace frontend dev",
+    "build": "yarn workspace frontend build",
+    "dev": "yarn workspace backend dev",
+    "start": "yarn workspace backend start"
+
+  },
+  "repository": "git@github.com:riya2509/Travel_Buddy.git",
+  "author": "Riya",
+  "license": "MIT",
+  "private": true
+}
