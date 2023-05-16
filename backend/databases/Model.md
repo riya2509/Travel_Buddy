@@ -7,9 +7,9 @@
 > | email | varchar |
 > | name | varchar |
 > | password | varchar |
+> | phoneNum | varchar |
 > | token | varchar |
 > | expiry | dateTime |
-> | phoneNum | varchar |
 > | show | tinyInt |
 > | isActive | tinyInt |
 > | lastUpdatedAt | dateTime |
