@@ -24,4 +24,5 @@ const mysql = (queryString = "") =>
       }
     })
   );
+
 export default mysql;
