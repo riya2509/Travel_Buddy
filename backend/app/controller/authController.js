@@ -1,13 +1,16 @@
 import moment from "moment";
 const authController = {};
+import bcryptjs from "bcryptjs";
 import mysql from "../../databases/database.js";
 
 authController.register = (req, res) => {
   const token = Math.random().toString().substring(2, 8);
   const expiry = moment().add(15, "minute").format("YYYY-MM-DD HH:mm:ss");
   const { name, email, password, phoneNum } = req.body;
+  var salt = bcryptjs.genSaltSync(10);
+  var hashedPassword = bcryptjs.hashSync(password, salt);
   mysql(
-    `INSERT INTO master (email,name,password,phoneNum,token,expiry) VALUES ('${email}', '${name}', '${password}', '${phoneNum}', '${token}','${expiry}');`
+    `INSERT INTO master (email,name,password,phoneNum,token,expiry) VALUES ('${email}', '${name}', '${hashedPassword}', '${phoneNum}', '${token}','${expiry}');`
   )
     .then(() => {
       res.status(201).send({
