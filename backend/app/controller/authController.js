@@ -1,6 +1,7 @@
 import moment from "moment";
 import bcryptjs from "bcryptjs";
 import mysql from "../../databases/database.js";
+import jwt from "jsonwebtoken";
 
 const authController = {};
 const parsedData = (param) => JSON.parse(JSON.stringify(param));
