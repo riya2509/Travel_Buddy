@@ -1,7 +1,9 @@
 import moment from "moment";
-const authController = {};
 import bcryptjs from "bcryptjs";
 import mysql from "../../databases/database.js";
+
+const authController = {};
+const parsedData = (param) => JSON.parse(JSON.stringify(param));
 
 authController.register = (req, res) => {
   const token = Math.random().toString().substring(2, 8);
@@ -27,6 +29,35 @@ authController.register = (req, res) => {
           .status(500)
           .send({ status: 0, message: `Some other error occured`, error: e });
       }
+    });
+};
+
+authController.login = (req, res) => {
+  const { email, password } = req.body;
+  mysql(
+    `SELECT email,name,password as hashed,phoneNum,token,expiry,isActive from master WHERE email='${email}'`
+  )
+    .then((response) => {
+      const data = parsedData(response);
+      if (data.length > 0) {
+        console.log(data);
+        const hashedPassword = data[0].hashed;
+        const ismatched = bcryptjs.compareSync(
+          password,
+          hashedPassword ? hashedPassword : ""
+        );
+        if (ismatched && data[0].isActive === 1) {
+          res.send({ message: `Correct password` });
+        } else {
+          res.send({ message: `Invalid credentials` });
+        }
+      } else {
+        res.send({ message: `Invalid credentials` });
+      }
+    })
+    .catch((e) => {
+      console.log(e);
+      res.send({ message: `Trouble signing you in`, error: e });
     });
 };
 
