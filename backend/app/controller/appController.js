@@ -10,7 +10,7 @@ appController.getCity = (req, res) => {
   const { name, email, password, phoneNum } = req.body;
 
   mysql(
-    `SELECT master.email,master.name,master.password as hashed,master.phoneNum, city.name FROM master , city WHERE city.name LIKE 'jam%'`
+    `SELECT master.email,master.name as cust_name,master.password as hashed,master.phoneNum, city.name FROM master , city WHERE city.name LIKE 'jam%'`
   )
     .then((response) => {
       const data = parsedData(response);
