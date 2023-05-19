@@ -7,10 +7,13 @@ appController.getCity = (req, res) => {
   // setTimeout(() => {
   //   res.send({ message: "API is working." });
   // }, 5000);
-  const { name, email, password, phoneNum } = req.body;
+  const name = req.body;
 
+  // mysql(
+  //   `SELECT master.email,master.name as cust_name,master.password as hashed,master.phoneNum, city.name FROM master , city WHERE city.name LIKE 'jam%'`
+  // )
   mysql(
-    `SELECT master.email,master.name as cust_name,master.password as hashed,master.phoneNum, city.name FROM master , city WHERE city.name LIKE 'jam%'`
+    `SELECT t1.name as city_name, t2.name as country_name, t2.code FROM city AS t1 inner join country as t2 ON t1.CountryCode = t2.code WHERE t1.name LIKE 'jam%';`
   )
     .then((response) => {
       const data = parsedData(response);
