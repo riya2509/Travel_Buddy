@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import "./Register.css";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
+import { TextField, Button } from "@mui/material";
 
 function Register() {
   const [name, setName] = useState("");
@@ -30,31 +31,30 @@ function Register() {
 
   return (
     <div className="Outerdiv">
-      <input
-        type="text"
+      <TextField
         placeholder="Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <input
-        type="email"
+      <TextField
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <input
-        type="password"
+      <TextField
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <input
+      <TextField
         type="number"
         placeholder="Phone Number"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
       />
-      <button onClick={handleRegister}>Register</button>
+      <Button variant="contained" onClick={handleRegister}>
+        Register
+      </Button>
       <div className="howToRegister">
         <HowToRegIcon />
       </div>
