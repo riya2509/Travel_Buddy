@@ -12,7 +12,11 @@ export const isAuthenticated = (req, res, next) => {
 
     next();
   } catch (e) {
-    // console.log(e);
+    console.log({
+      message: `Unauthenticated user`,
+      reason: "Issue with jwt",
+      status: 401,
+    });
     res.status(401).send({ message: `Please login again` });
   }
 };

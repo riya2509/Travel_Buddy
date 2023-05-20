@@ -10,7 +10,6 @@ appController.getCity = (req, res) => {
   )
     .then((response) => {
       const data = parsedData(response);
-      console.log(data);
       res.send(data);
     })
     .catch((e) => {
