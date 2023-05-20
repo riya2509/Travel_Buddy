@@ -41,14 +41,21 @@ authController.login = (req, res) => {
     .then((response) => {
       const data = parsedData(response);
       if (data.length > 0) {
-        console.log(data);
-        const hashedPassword = data[0].hashed;
-        const ismatched = bcryptjs.compareSync(
-          password,
-          hashedPassword ? hashedPassword : ""
-        );
+        console.log(data[0]);
+        const { id, name, email, hashed } = data[0];
+        const ismatched = bcryptjs.compareSync(password, hashed ? hashed : "");
         if (ismatched && data[0].isActive === 1) {
-          res.send({ message: `Correct password` });
+          //token generation
+          const token = jwt.sign(
+            {
+              id: id,
+              name: name,
+              email: email,
+            },
+            "secret_key",
+            { expiresIn: "5m" }
+          );
+          res.send({ message: `Logged in succesfully`, token });
         } else {
           res.send({ message: `Invalid credentials` });
         }
