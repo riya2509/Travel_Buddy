@@ -56,17 +56,17 @@ authController.login = (req, res) => {
             process.env.SECRET,
             { expiresIn: "2h" }
           );
-          res.send({ message: `Logged in succesfully`, token });
+          res.send({ message: `Logged in succesfully`, token, status: 1 });
         } else {
-          res.send({ message: `Invalid credentials` });
+          res.send({ message: `Invalid credentials`, status: 0 });
         }
       } else {
-        res.send({ message: `Invalid credentials` });
+        res.send({ message: `Invalid credentials`, status: 0 });
       }
     })
     .catch((e) => {
       console.log(e);
-      res.send({ message: `Trouble signing you in`, error: e });
+      res.send({ message: `Trouble signing you in`, error: e, status: 0 });
     });
 };
 

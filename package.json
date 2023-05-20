@@ -8,6 +8,7 @@
     "build": "yarn workspace frontend build",
     "dev": "yarn workspace backend dev",
     "start": "yarn workspace backend start"
+    
 
   },
   "repository": "git@github.com:riya2509/Travel_Buddy.git",
