@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
+import "./Register.css";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
 
 function Register() {
   const [name, setName] = useState("");
@@ -53,6 +55,9 @@ function Register() {
         onChange={(e) => setPhone(e.target.value)}
       />
       <button onClick={handleRegister}>Register</button>
+      <div className="howToRegister">
+        <HowToRegIcon />
+      </div>
     </div>
   );
 }

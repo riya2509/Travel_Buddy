@@ -1,0 +1,15 @@
+.Outerdiv{
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.howToRegister:hover > .MuiSvgIcon-root{
+    color: #2e81f4;
+    cursor: pointer;
+
+}
