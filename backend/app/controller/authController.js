@@ -2,6 +2,8 @@ import moment from "moment";
 import bcryptjs from "bcryptjs";
 import mysql from "../../databases/database.js";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 const authController = {};
 const parsedData = (param) => JSON.parse(JSON.stringify(param));
@@ -51,7 +53,7 @@ authController.login = (req, res) => {
               name: name,
               email: email,
             },
-            "secret_key",
+            process.env.SECRET,
             { expiresIn: "2h" }
           );
           res.send({ message: `Logged in succesfully`, token });

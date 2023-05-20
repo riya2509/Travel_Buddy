@@ -5,7 +5,7 @@ import appRoutes from "./app/routes/appRoutes.js";
 import mysql from "./databases/database.js";
 dotenv.config({ path: "../.env" });
 
-const { PORT } = process.env;
+const { PORT, NODE_ENV } = process.env;
 
 const app = express();
 app.use(express.json());
@@ -15,7 +15,7 @@ app.use((req, res, next) => {
     console.log(
       `[METHOD]: ${method} [URL]: ${url} at ${new Date().toLocaleString()}`
     );
-    method === "POST" && console.log(body);
+    method === "POST" && NODE_ENV === "development" && console.log(body);
   }
   next();
   //   res.send({ message: "This site is under maintainance." });
