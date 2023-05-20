@@ -9,6 +9,17 @@ const { PORT } = process.env;
 
 const app = express();
 app.use(express.json());
+app.use((req, res, next) => {
+  const { url, method, body } = req;
+  if (url.match("/api") || url.match("/auth")) {
+    console.log(
+      `[METHOD]: ${method} [URL]: ${url} at ${new Date().toLocaleString()}`
+    );
+    method === "POST" && console.log(body);
+  }
+  next();
+  //   res.send({ message: "This site is under maintainance." });
+});
 app.use("/auth", authRoutes);
 app.use("/api", appRoutes);
 
