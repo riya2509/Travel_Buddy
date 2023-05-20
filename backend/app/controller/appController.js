@@ -19,8 +19,22 @@ appController.getCity = (req, res) => {
     });
 };
 
-//getcity-> function
-//route -> /city
-// jam% with country
-// city then country
+appController.getProfile = (req, res) => {
+  const jwt_id = req.id;
+  mysql(`SELECT name,email,id,phoneNum FROM master WHERE id='${jwt_id}'`)
+    .then((response) => {
+      res.send({ message: `User present`, data: response });
+    })
+    .catch((e) => {
+      console.log(e);
+      res.status(500).send({ message: `User not present` });
+    });
+};
+
+/**
+ * route name-> /me
+ * function name-> getProfile
+ * input nothing
+ * output email, name,phoneNum
+ */
 export default appController;

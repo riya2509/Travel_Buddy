@@ -36,12 +36,11 @@ authController.register = (req, res) => {
 authController.login = (req, res) => {
   const { email, password } = req.body;
   mysql(
-    `SELECT email,name,password as hashed,phoneNum,token,expiry,isActive from master WHERE email='${email}'`
+    `SELECT email,id,name,password as hashed,phoneNum,token,expiry,isActive from master WHERE email='${email}'`
   )
     .then((response) => {
       const data = parsedData(response);
       if (data.length > 0) {
-        console.log(data[0]);
         const { id, name, email, hashed } = data[0];
         const ismatched = bcryptjs.compareSync(password, hashed ? hashed : "");
         if (ismatched && data[0].isActive === 1) {
@@ -53,7 +52,7 @@ authController.login = (req, res) => {
               email: email,
             },
             "secret_key",
-            { expiresIn: "5m" }
+            { expiresIn: "2h" }
           );
           res.send({ message: `Logged in succesfully`, token });
         } else {
