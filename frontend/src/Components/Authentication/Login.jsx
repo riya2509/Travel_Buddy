@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { Button, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import "./Login.css";
 
 function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("riya@gmail.com");
   const [password, setPassword] = useState("abcd");
 
   const handleLogin = () => {
-    console.log({ email, password });
     axios
       .post("/auth/login", { email, password })
       .then((response) => {
-        console.log(response.data.status);
         const { status, message, token } = response.data;
         if (status === 1) {
           toast.success(message);
@@ -34,20 +36,24 @@ function Login() {
   return (
     <div>
       <div className="outerbox">
-        <input
-          type="email"
+        <TextField
           placeholder="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <input
+        <TextField
           type="password"
           placeholder="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button onClick={handleLogin}>Login</button>
+        <Button variant="contained" onClick={handleLogin}>
+          Login
+        </Button>
+        <Button variant="text" onClick={() => navigate("/register")}>
+          Do not have an account? Register now.
+        </Button>
       </div>
     </div>
   );

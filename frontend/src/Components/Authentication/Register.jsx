@@ -2,10 +2,11 @@ import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import "./Register.css";
-import HowToRegIcon from "@mui/icons-material/HowToReg";
 import { TextField, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,6 +43,7 @@ function Register() {
         onChange={(e) => setEmail(e.target.value)}
       />
       <TextField
+        type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
@@ -55,9 +57,9 @@ function Register() {
       <Button variant="contained" onClick={handleRegister}>
         Register
       </Button>
-      <div className="howToRegister">
-        <HowToRegIcon />
-      </div>
+      <Button variant="text" onClick={() => navigate("/login")}>
+        Already Registered? Login
+      </Button>
     </div>
   );
 }
