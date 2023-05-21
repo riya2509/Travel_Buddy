@@ -3,7 +3,7 @@ import Login from "./Components/Authentication/Login";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./Components/Home";
 import Register from "./Components/Authentication/Register";
-import ProtectedRoute from "./Components/ProtectedRoute";
+import ProtectedRoute from "./Components/Authentication/ProtectedRoute";
 const router = createBrowserRouter([
   {
     path: "",
