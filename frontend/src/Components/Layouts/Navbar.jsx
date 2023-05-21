@@ -1,26 +1,49 @@
 import { Button } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import styled from "styled-components";
+import axios from "axios";
+import { useState } from "react";
 
 const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: aliceblue;
+  background-color: #6400a0;
   padding: 12px;
 `;
 
-const LeftContainer = styled.div`
+const Label = styled.div`
+  margin-right: 10px;
+  background-color: #ebebeb;
+  padding: 10px;
+  border-radius: 6px;
+  font-weight: 700;
+`;
+
+const LeftContainer = styled.span`
   flex: 1;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: underline;
+  color: #fff;
 `;
 
 const RightContainer = styled.div`
   margin-right: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 function Navbar() {
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    getUserProfile();
+  }, []);
+
   const handleLogout = () => {
     window.localStorage.clear();
     toast.success("Logged Out successfully! 😀");
@@ -28,10 +51,26 @@ function Navbar() {
       window.location.reload();
     }, 1000);
   };
+
+  const getUserProfile = () => {
+    axios
+      .get("/api/me", {
+        headers: { Authorization: window.localStorage.getItem("token") },
+      })
+      .then((response) => {
+        console.log(response.data);
+        setName(response.data.data[0].name);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   return (
     <Container>
       <LeftContainer>Travel Buddy</LeftContainer>
       <RightContainer>
+        <Label>Hello {name}!</Label>
         <Button variant="contained" onClick={handleLogout}>
           Logout
         </Button>
