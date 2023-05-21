@@ -16,8 +16,11 @@ function Login() {
       .then((response) => {
         const { status, message, token } = response.data;
         if (status === 1) {
-          toast.success(message);
+          toast.success(` ${message} 😎`);
           window.localStorage.setItem("token", token);
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
         } else {
           toast.error(message);
           removeToken();
