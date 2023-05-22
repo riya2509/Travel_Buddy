@@ -14,6 +14,12 @@ const Container = styled.div`
   padding: 12px;
 `;
 
+const BabyContainer = styled.div`
+  height: 100vh;
+  color: #fff;
+  background-color: #5b5b67;
+`;
+
 const Label = styled.div`
   margin-right: 10px;
   background-color: #ebebeb;
@@ -67,15 +73,18 @@ function Navbar() {
   };
 
   return (
-    <Container>
-      <LeftContainer>Travel Buddy</LeftContainer>
-      <RightContainer>
-        <Label>Hello {name}!</Label>
-        <Button variant="contained" onClick={handleLogout}>
-          Logout
-        </Button>
-      </RightContainer>
-    </Container>
+    <>
+      <Container>
+        <LeftContainer>Travel Buddy</LeftContainer>
+        <RightContainer>
+          <Label>Hello {name}!</Label>
+          <Button variant="contained" onClick={handleLogout}>
+            Logout
+          </Button>
+        </RightContainer>
+      </Container>
+      <BabyContainer>Hello</BabyContainer>
+    </>
   );
 }
 
