@@ -14,12 +14,6 @@ const Container = styled.div`
   padding: 12px;
 `;
 
-const BabyContainer = styled.div`
-  height: 100vh;
-  color: #fff;
-  background-color: #5b5b67;
-`;
-
 const Label = styled.div`
   margin-right: 10px;
   background-color: #ebebeb;
@@ -60,9 +54,7 @@ function Navbar() {
 
   const getUserProfile = () => {
     axios
-      .get("/api/me", {
-        headers: { Authorization: window.localStorage.getItem("token") },
-      })
+      .get("/api/me")
       .then((response) => {
         console.log(response.data);
         setName(response.data.data[0].name);
@@ -83,7 +75,6 @@ function Navbar() {
           </Button>
         </RightContainer>
       </Container>
-      <BabyContainer>Hello</BabyContainer>
     </>
   );
 }
