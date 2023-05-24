@@ -56,7 +56,6 @@ function Navbar() {
     axios
       .get("/api/me")
       .then((response) => {
-        console.log(response.data);
         setName(response.data.data[0].name);
       })
       .catch((e) => {
