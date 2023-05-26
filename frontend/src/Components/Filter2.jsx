@@ -17,7 +17,6 @@ function Filter2() {
         console.log(e);
       });
   };
-
   console.log(dropCity);
   return (
     <>
@@ -46,7 +45,7 @@ function Filter2() {
         {cityData.map((val, index) => {
           return (
             <MenuItem value={val.id} key={index}>
-              {val.cityName}
+              {val.city_name}
             </MenuItem>
           );
         })}
