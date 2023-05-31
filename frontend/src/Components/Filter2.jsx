@@ -17,7 +17,6 @@ function Filter2() {
         console.log(e);
       });
   };
-  console.log(dropCity);
   return (
     <>
       <div className="inputBox">
