@@ -4,6 +4,7 @@ import { toast } from "react-hot-toast";
 import styled from "styled-components";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -39,6 +40,7 @@ const RightContainer = styled.div`
 
 function Navbar() {
   const [name, setName] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUserProfile();
@@ -68,7 +70,12 @@ function Navbar() {
       <Container>
         <LeftContainer>Travel Buddy</LeftContainer>
         <RightContainer>
-          <Label>Hello {name}!</Label>
+          <Label
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate("/profile")}
+          >
+            Hello {name}!
+          </Label>
           <Button variant="contained" onClick={handleLogout}>
             Logout
           </Button>
