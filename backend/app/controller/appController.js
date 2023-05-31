@@ -19,7 +19,9 @@ appController.getCity = (req, res) => {
 
 appController.getProfile = (req, res) => {
   const jwt_id = req.id;
-  mysql(`SELECT name,email,id,phoneNum FROM master WHERE id='${jwt_id}'`)
+  mysql(
+    `SELECT name,email,id,phoneNum,gender,year, currLocation, destination, college FROM master WHERE id='${jwt_id}'`
+  )
     .then((response) => {
       res.send({ message: `User present`, data: response });
     })
