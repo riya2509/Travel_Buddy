@@ -18,7 +18,13 @@ axios.interceptors.response.use(
     return response;
   },
   (error) => {
-    // window.localStorage.clear();
+    console.log(error);
+    if (error.response.status === 401 || error.response.status === 403) {
+      window.localStorage.clear();
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    }
     return Promise.reject(error);
   }
 );
