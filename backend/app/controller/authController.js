@@ -11,11 +11,11 @@ const parsedData = (param) => JSON.parse(JSON.stringify(param));
 authController.register = (req, res) => {
   const token = Math.random().toString().substring(2, 8);
   const expiry = moment().add(15, "minute").format("YYYY-MM-DD HH:mm:ss");
-  const { name, email, password, phoneNum } = req.body;
+  const { name, email, password, phoneNum, gender, year, college } = req.body;
   var salt = bcryptjs.genSaltSync(10);
   var hashedPassword = bcryptjs.hashSync(password, salt);
   mysql(
-    `INSERT INTO master (email,name,password,phoneNum,token,expiry) VALUES ('${email}', '${name}', '${hashedPassword}', '${phoneNum}', '${token}','${expiry}');`
+    `INSERT INTO master (email,name,password,phoneNum,token,expiry,gender,year,college) VALUES ('${email}', '${name}', '${hashedPassword}', '${phoneNum}', '${token}','${expiry}','${gender}','${year}','${college}');`
   )
     .then(() => {
       res.status(201).send({
