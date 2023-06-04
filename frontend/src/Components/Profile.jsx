@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 function Profile() {
   //   const [data, setData] = useState([]);
   const [value, setValue] = useState({
@@ -38,6 +39,7 @@ function Profile() {
       })
       .catch((e) => {
         console.log(e);
+        toast.error(`Some issue while fetching the data`);
       });
   };
 
