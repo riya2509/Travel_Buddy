@@ -20,10 +20,10 @@ appController.getCity = (req, res) => {
 appController.getProfile = (req, res) => {
   const jwt_id = req.id;
   mysql(
-    `SELECT name,email,id,phoneNum,gender,year, currLocation, destination, college FROM master WHERE id='${jwt_id}'`
+    `SELECT name,email,id,phoneNum,gender,year, college FROM master WHERE id='${jwt_id}'`
   )
     .then((response) => {
-      res.send({ message: `User present`, data: response });
+      res.send({ message: `User present`, data: response, status: 1 });
     })
     .catch((e) => {
       console.log(e);
@@ -31,10 +31,4 @@ appController.getProfile = (req, res) => {
     });
 };
 
-/**
- * route name-> /me
- * function name-> getProfile
- * input nothing
- * output email, name,phoneNum
- */
 export default appController;
