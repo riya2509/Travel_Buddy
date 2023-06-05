@@ -5,7 +5,6 @@ import "./Profile.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 function Profile() {
-  //   const [data, setData] = useState([]);
   const [value, setValue] = useState({
     name: "",
     email: "",
@@ -22,6 +21,29 @@ function Profile() {
 
   const handleSubmit = () => {
     console.log(value);
+    // Update profile data to database
+    // toast.warn yellow
+    // ChangedRows >0 updated success or rows affected =0
+    // disabled = true email
+
+    axios
+      .post("/api/updateProfile", value)
+      .then((response) => {
+        const { status, message } = response.data;
+        console.log(response);
+        if (status === 2) {
+          toast.success(`${message} 😄`);
+        } else if (status === 1) {
+          toast(`${message} 🙂`, { style: { backgroundColor: "yellow" } });
+        } else {
+          toast.error(`${message} 😅`);
+        }
+        // if(changedRows===1)
+      })
+      .catch((e) => {
+        console.log(e);
+        toast.error(`Some error while updating profile`);
+      });
   };
 
   const handleChange = (e) => {
@@ -61,6 +83,7 @@ function Profile() {
         </Grid>
         <Grid item xs={12} sm={6} md={4}>
           <TextField
+            disabled={true}
             name="email"
             label="Email"
             onChange={handleChange}
@@ -134,4 +157,4 @@ function Profile() {
 
 export default Profile;
 
-// set the data from the coming objecct
+// react select , mui auto complete, example countries
