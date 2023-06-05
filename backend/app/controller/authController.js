@@ -75,8 +75,3 @@ authController.login = (req, res) => {
 };
 
 export default authController;
-
-// | token | varchar |
-//  | expiry | dateTime |
-//  | show | tinyInt |
-//  | isActive | tinyInt
