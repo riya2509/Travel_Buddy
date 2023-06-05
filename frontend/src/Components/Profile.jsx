@@ -21,10 +21,6 @@ function Profile() {
 
   const handleSubmit = () => {
     console.log(value);
-    // Update profile data to database
-    // toast.warn yellow
-    // ChangedRows >0 updated success or rows affected =0
-    // disabled = true email
 
     axios
       .post("/api/updateProfile", value)
