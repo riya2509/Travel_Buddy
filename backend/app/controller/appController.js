@@ -1,7 +1,7 @@
 import mysql from "../../databases/database.js";
 
 const appController = {};
-// const parsedData = (param) => JSON.parse(JSON.stringify(param));
+const parsedData = (param) => JSON.parse(JSON.stringify(param));
 
 appController.getCity = (req, res) => {
   const vName = req.body.name;
@@ -28,6 +28,34 @@ appController.getProfile = (req, res) => {
     .catch((e) => {
       console.log(e);
       res.status(500).send({ message: `User not present` });
+    });
+};
+
+appController.updateProfile = (req, res) => {
+  console.log(req.body.name);
+  const { name, phoneNum, gender, year, college, id } = req.body;
+  mysql(
+    `UPDATE master SET  name = '${name}', phoneNum = '${phoneNum}', gender = '${gender}', year = '${year}', college = '${college}' WHERE (id = '${id}');`
+  )
+    .then((response) => {
+      const data = parsedData(response);
+
+      console.log(data);
+      if (data.changedRows > 0) {
+        res.send({
+          message: `Profile updated successfully`,
+          data: response,
+          status: 2,
+        });
+      } else {
+        res.send({ message: `No changes are done`, data: response, status: 1 });
+      }
+    })
+    .catch((e) => {
+      console.log(e);
+      res
+        .status(500)
+        .send({ message: `Some error while updating profile`, status: 0 });
     });
 };
 
