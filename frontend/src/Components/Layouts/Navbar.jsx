@@ -11,7 +11,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: #6400a0;
+  background-color: #008b8b; // #6400a0
   padding: 12px;
 `;
 
