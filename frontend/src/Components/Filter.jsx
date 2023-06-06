@@ -9,7 +9,7 @@ function Filter() {
 
   const searchCity = () => {
     axios
-      .post("/api/city", { name: city_name })
+      .get("/api/city")
       .then((response) => {
         setCityData(response.data.data);
       })
