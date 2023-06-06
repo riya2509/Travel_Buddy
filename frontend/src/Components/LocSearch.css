@@ -1,0 +1,15 @@
+body {
+    background: url(https://images.unsplash.com/photo-1544306094-e2dcf9479da3) no-repeat;
+    /* Keep the inherited background full size. */
+   
+  }
+
+.outerBox{
+    background: rgba(70, 242, 216, 0.32);
+    border-radius: 21px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5.4px);
+    -webkit-backdrop-filter: blur(4.4px);
+    border: 1px solid rgba(70, 242, 216, 0.23);
+    height: 100vh;
+  }
