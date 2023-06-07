@@ -5,11 +5,33 @@ body {
   }
 
 .outerBox{
-    background: rgba(70, 242, 216, 0.32);
+    background: rgba(80, 255, 229, 0.32);
     border-radius: 21px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(5.4px);
+    backdrop-filter: blur(0.4px);
     -webkit-backdrop-filter: blur(4.4px);
     border: 1px solid rgba(70, 242, 216, 0.23);
-    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 20px;
+    padding: 35px;
   }
+
+  .cityDropdown{
+    /* width: 250px; */
+    margin: 20px;
+
+  }
+  .labels{
+    margin:10px
+  }
+
+  .currLoc,.destination{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  
