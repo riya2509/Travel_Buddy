@@ -6,7 +6,7 @@ const parsedData = (param) => JSON.parse(JSON.stringify(param));
 appController.getCity = (req, res) => {
   // const vName = req.body.name;
   mysql(
-    `SELECT t1.name as city_name,t1.id as id, t2.name as country_name, t2.code,t2.code2 AS flag FROM city AS t1 inner join country as t2 ON t1.CountryCode = t2.code ;`
+    `SELECT t1.name as city_name,t1.id as id, t2.name as country_name, t2.code,t2.code2 AS flag FROM city AS t1 inner join country as t2 ON t1.CountryCode = t2.code WHERE t1.name != "" OR t1.name != " "  ORDER BY t1.name ASC;`
   )
     .then((response) => {
       res.send({ data: response });
