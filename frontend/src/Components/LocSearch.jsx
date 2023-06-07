@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 import "./LocSearch.css";
 import Select from "react-select";
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 // import { Autocomplete, TextField } from "@mui/material";
 
 function LocSearch() {
@@ -77,9 +77,9 @@ function LocSearch() {
   const cityArray = cityData.map((val) => {
     return { label: val.city_name, value: val.id };
   });
+  console.log({ from: cityName, to: destination });
+  //   console.log(destination);
 
-  console.log(cityName);
-  console.log(destination);
   //   console.log(cityData);
 
   return (
@@ -96,7 +96,7 @@ function LocSearch() {
         </Stack>
       </div>
       <Grid container spacing={5}>
-        <Grid sm={12} md={6}>
+        <Grid item sm={12} md={6}>
           <div className="currLoc">
             <span className="labels">From:</span>
             <Select
@@ -105,11 +105,13 @@ function LocSearch() {
               isSearchable={true}
               placeholder="Select City"
               options={cityArray}
-              onChange={(e) => setCityName(e.value)}
+              //   optional chianing
+              onChange={(e) => setCityName(e?.value)}
+              isDisabled={true}
             />
           </div>
         </Grid>
-        <Grid sm={12} md={6}>
+        <Grid item sm={12} md={6}>
           <div className="destination">
             <span className="labels">TO:</span>
             <Select
@@ -118,13 +120,16 @@ function LocSearch() {
               isSearchable={true}
               placeholder="Select City"
               options={cityArray}
-              onChange={(e) => setDestination(e.value)}
+              onChange={(e) => setDestination(e?.value)}
             />
           </div>
         </Grid>
+        <Button variant="contained">Post</Button>
       </Grid>
     </div>
   );
 }
 
 export default LocSearch;
+
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining
