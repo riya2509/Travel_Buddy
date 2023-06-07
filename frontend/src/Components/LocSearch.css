@@ -1,11 +1,12 @@
 body {
-    background: url(https://images.unsplash.com/photo-1544306094-e2dcf9479da3) no-repeat;
+    /* background: url(https://images.unsplash.com/photo-1544306094-e2dcf9479da3) no-repeat; */
     /* Keep the inherited background full size. */
+    background: #b993d6; /* fallback for old browsers */ background: -webkit-linear-gradient( to right, #8ca6db, #b993d6 ); /* Chrome 10-25, Safari 5.1-6 */ background: linear-gradient( to right, #8ca6db, #b993d6 ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
    
   }
 
 .outerBox{
-    background: rgba(80, 255, 229, 0.32);
+    background: rgba(152, 52, 165, 0.32);
     border-radius: 21px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(0.4px);
@@ -21,6 +22,7 @@ body {
   .cityDropdown{
     /* width: 250px; */
     margin: 20px;
+    width: 100%;
 
   }
   .labels{
@@ -32,6 +34,10 @@ body {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+  }
+
+  .css-1ld3b9g-MuiGrid-root{
+    justify-content: flex-end;
   }
 
   
