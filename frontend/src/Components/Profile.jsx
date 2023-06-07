@@ -52,7 +52,7 @@ function Profile() {
     axios
       .get("/api/me")
       .then((response) => {
-        console.log(response.data.data[0]);
+        // console.log(response.data.data[0]);
         setValue(response.data.data[0]);
       })
       .catch((e) => {
