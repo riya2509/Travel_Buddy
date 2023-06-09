@@ -6,7 +6,8 @@ import Typography from "@mui/material/Typography";
 import axios from "axios";
 import "./LocSearch.css";
 import Select from "react-select";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, TextField } from "@mui/material";
+import { toast } from "react-hot-toast";
 // import { Autocomplete, TextField } from "@mui/material";
 
 function LocSearch() {
@@ -57,6 +58,8 @@ function LocSearch() {
   const [cityData, setCityData] = useState([]);
   const [cityName, setCityName] = useState("");
   const [destination, setDestination] = useState("");
+  const [isTravelling, setIsTravelling] = useState(false);
+  const [description, setDescription] = useState("");
 
   const searchCity = () => {
     axios
@@ -77,10 +80,36 @@ function LocSearch() {
   const cityArray = cityData.map((val) => {
     return { label: val.city_name, value: val.id };
   });
-  console.log({ from: cityName, to: destination });
+  //   console.log({ from: cityName, to: destination });
   //   console.log(destination);
-
   //   console.log(cityData);
+  const handlePost = () => {
+    axios
+      .post("/api/updateLocation", {
+        currLocation: cityName,
+        destination,
+        description,
+      })
+      .then((response) => {
+        const { status, message } = response.data;
+        if (status === 2) {
+          toast.success(`${message} 😄`);
+        } else if (status === 1) {
+          toast(`${message} 🙂`, { style: { backgroundColor: "yellow" } });
+        } else {
+          toast.error(`${message} 😅`);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        toast.error(`Some error while updating travel plan`);
+      });
+  };
+
+  const handleSwitch = (e) => {
+    console.log(e.target.checked);
+    setIsTravelling(e.target.checked);
+  };
 
   return (
     <div className="outerBox">
@@ -89,7 +118,8 @@ function LocSearch() {
         <Stack direction="row" spacing={1} alignItems="center">
           <Typography>No</Typography>
           <AntSwitch
-            defaultChecked
+            onChange={handleSwitch}
+            checked={isTravelling}
             inputProps={{ "aria-label": "ant design" }}
           />
           <Typography>Yes</Typography>
@@ -105,9 +135,9 @@ function LocSearch() {
               isSearchable={true}
               placeholder="Select City"
               options={cityArray}
-              //   optional chianing
+              //   optional chaining
               onChange={(e) => setCityName(e?.value)}
-              isDisabled={true}
+              isDisabled={!isTravelling}
             />
           </div>
         </Grid>
@@ -120,11 +150,37 @@ function LocSearch() {
               isSearchable={true}
               placeholder="Select City"
               options={cityArray}
+              isDisabled={!isTravelling}
               onChange={(e) => setDestination(e?.value)}
             />
           </div>
         </Grid>
-        <Button variant="contained">Post</Button>
+
+        <Grid item md={10}>
+          <TextField
+            fullWidth={true}
+            variant="filled"
+            multiline
+            rows={2}
+            placeholder="What's on your mind?"
+            disabled={!isTravelling}
+            onChange={(e) => {
+              setDescription(e.target.value);
+            }}
+          ></TextField>
+        </Grid>
+
+        <Grid item md={2}>
+          <Button
+            style={{ marginTop: "42px" }}
+            fullWidth={true}
+            disabled={!isTravelling}
+            variant="contained"
+            onClick={handlePost}
+          >
+            Post
+          </Button>
+        </Grid>
       </Grid>
     </div>
   );
