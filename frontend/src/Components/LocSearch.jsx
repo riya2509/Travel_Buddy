@@ -60,6 +60,9 @@ function LocSearch() {
   const [destination, setDestination] = useState("");
   const [isTravelling, setIsTravelling] = useState(false);
   const [description, setDescription] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [trainInfo, setTrainInfo] = useState("");
 
   const searchCity = () => {
     axios
@@ -85,10 +88,13 @@ function LocSearch() {
   //   console.log(cityData);
   const handlePost = () => {
     axios
-      .post("/api/updateLocation", {
-        currLocation: cityName,
-        destination,
+      .post("/api/post", {
+        from: cityName,
+        to: destination,
         description,
+        startDate,
+        endDate,
+        trainInfo,
       })
       .then((response) => {
         const { status, message } = response.data;
@@ -102,7 +108,7 @@ function LocSearch() {
       })
       .catch((e) => {
         console.log(e);
-        toast.error(`Some error while updating travel plan`);
+        toast.error(`Some error while posting travel plan`);
       });
   };
 
@@ -154,6 +160,36 @@ function LocSearch() {
               onChange={(e) => setDestination(e?.value)}
             />
           </div>
+        </Grid>
+
+        <Grid item sm={12} md={6}>
+          <div className="startDate">
+            <span className="labels">Start Date:</span>
+            <input
+              type="date"
+              className="date"
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+          </div>
+        </Grid>
+
+        <Grid item sm={12} md={6}>
+          <div className="endDate">
+            <span className="labels">End Date:</span>
+            <input
+              type="date"
+              className="date"
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </div>
+        </Grid>
+
+        <Grid item sm={12} md={6}>
+          <TextField
+            className="trainInfo"
+            placeholder="Train Number"
+            onChange={(e) => setTrainInfo(e.target.value)}
+          ></TextField>
         </Grid>
 
         <Grid item md={10}>
