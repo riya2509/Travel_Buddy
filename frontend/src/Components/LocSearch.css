@@ -19,7 +19,7 @@ body {
     padding: 35px;
   }
 
-  .cityDropdown{
+  .cityDropdown, .date{
     /* width: 250px; */
     margin: 20px;
     width: 100%;
@@ -29,7 +29,7 @@ body {
     margin:10px
   }
 
-  .currLoc,.destination{
+  .currLoc,.destination, .startDate, .endDate {
     display: flex;
     flex-direction: row;
     justify-content: center;
