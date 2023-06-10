@@ -33,9 +33,9 @@ appController.getProfile = (req, res) => {
 
 appController.updateProfile = (req, res) => {
   console.log(req.body);
-  const { name, phoneNum, gender, year, college, id } = req.body;
+  const { name, phoneNum, gender, year, college } = req.body;
   mysql(
-    `UPDATE master SET  name = '${name}', phoneNum = '${phoneNum}', gender = '${gender}', year = '${year}', college = '${college}' WHERE (id = '${id}');`
+    `UPDATE master SET  name = '${name}', phoneNum = '${phoneNum}', gender = '${gender}', year = '${year}', college = '${college}' WHERE (id = '${req.id}');`
   )
     .then((response) => {
       const data = parsedData(response);
@@ -59,11 +59,11 @@ appController.updateProfile = (req, res) => {
     });
 };
 
-appController.updateLocation = (req, res) => {
-  const { currLocation, destination, description } = req.body;
+appController.insertLocation = (req, res) => {
+  const { from, to, description, startDate, endDate, trainInfo } = req.body;
 
   mysql(
-    `UPDATE master SET currLocation = '${currLocation}', destination = '${destination}', description= '${description}' WHERE (id = '${req.id}');`
+    `INSERT INTO post (description, from, to, startDate, endDate, trainInfo, userId) VALUES ('${description}', '${from}', '${to}', '${startDate}', '${endDate}', '${trainInfo}', '${req.id}');`
   )
     .then((response) => {
       const data = parsedData(response);
