@@ -59,25 +59,20 @@ appController.updateProfile = (req, res) => {
     });
 };
 
-appController.insertLocation = (req, res) => {
-  const { from, to, description, startDate, endDate, trainInfo } = req.body;
+appController.insertPost = (req, res) => {
+  const { fromPlace, toPlace, description, startDate, endDate, trainInfo } =
+    req.body;
 
   mysql(
-    `INSERT INTO post (description, from, to, startDate, endDate, trainInfo, userId) VALUES ('${description}', '${from}', '${to}', '${startDate}', '${endDate}', '${trainInfo}', '${req.id}');`
+    `INSERT INTO post (description, fromPlace, toPlace, startDate, endDate, trainInfo, userId) VALUES ('${description}', '${fromPlace}', '${toPlace}', '${startDate}', '${endDate}', '${trainInfo}', '${req.id}')`
   )
     .then((response) => {
       const data = parsedData(response);
 
       console.log(data);
-      if (data.changedRows > 0) {
+      if (data.insertId) {
         res.send({
           message: `Successfully posted your travel plan!`,
-          data: {},
-          status: 2,
-        });
-      } else {
-        res.send({
-          message: `No changes are done in travel plan`,
           data: {},
           status: 1,
         });
