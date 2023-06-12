@@ -89,8 +89,8 @@ function LocSearch() {
   const handlePost = () => {
     axios
       .post("/api/post", {
-        from: cityName,
-        to: destination,
+        fromPlace: cityName,
+        toPlace: destination,
         description,
         startDate,
         endDate,
@@ -98,10 +98,8 @@ function LocSearch() {
       })
       .then((response) => {
         const { status, message } = response.data;
-        if (status === 2) {
+        if (status === 1) {
           toast.success(`${message} 😄`);
-        } else if (status === 1) {
-          toast(`${message} 🙂`, { style: { backgroundColor: "yellow" } });
         } else {
           toast.error(`${message} 😅`);
         }
