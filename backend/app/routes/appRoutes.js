@@ -7,6 +7,9 @@ appRoutes.use(isAuthenticated);
 appRoutes.get("/city", appController.getCity);
 appRoutes.get("/me", appController.getProfile);
 appRoutes.post("/updateProfile", appController.updateProfile);
-appRoutes.post("/post", appController.insertPost);
+appRoutes
+  .route("/post")
+  .post(appController.insertPost)
+  .get(appController.fetchPost);
 
 export default appRoutes;
