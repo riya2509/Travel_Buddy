@@ -89,8 +89,9 @@ appController.insertPost = (req, res) => {
 
 appController.fetchPost = (req, res) => {
   const { page, row } = req.query;
-  const value = (page - 1) * row;
-  mysql(`SELECT * FROM post  ORDER BY ID DESC LIMIT 5 OFFSET ${value}`)
+  // const value = (page - 1) * row;
+  const value = page <= 0 || isNaN(page) ? 0 : (page - 1) * row;
+  mysql(`SELECT * FROM post  ORDER BY ID DESC LIMIT ${row} OFFSET ${value}`)
     .then((response) => {
       res.send({ message: `Data present`, data: response, status: 1 });
     })
