@@ -27,7 +27,7 @@ appController.getProfile = (req, res) => {
     })
     .catch((e) => {
       console.log(e);
-      res.status(500).send({ message: `User not present` });
+      res.status(500).send({ message: `User not present`, status: 0 });
     });
 };
 
@@ -84,6 +84,19 @@ appController.insertPost = (req, res) => {
         message: `Some error while posting your travel plan!`,
         status: 0,
       });
+    });
+};
+
+appController.fetchPost = (req, res) => {
+  const { page, row } = req.query;
+  const value = (page - 1) * row;
+  mysql(`SELECT * FROM post  ORDER BY ID DESC LIMIT 5 OFFSET ${value}`)
+    .then((response) => {
+      res.send({ message: `Data present`, data: response, status: 1 });
+    })
+    .catch((e) => {
+      console.log(e);
+      res.status(500).send({ message: `Data not present`, status: 0 });
     });
 };
 
