@@ -56,13 +56,21 @@ function LocSearch() {
     },
   }));
   const [cityData, setCityData] = useState([]);
-  const [cityName, setCityName] = useState("");
-  const [destination, setDestination] = useState("");
   const [isTravelling, setIsTravelling] = useState(false);
-  const [description, setDescription] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [trainInfo, setTrainInfo] = useState("");
+  //   const [cityName, setCityName] = useState("");
+  //   const [destination, setDestination] = useState("");
+  //   const [description, setDescription] = useState("");
+  //   const [startDate, setStartDate] = useState("");
+  //   const [endDate, setEndDate] = useState("");
+  //   const [trainInfo, setTrainInfo] = useState("");
+  const [data, setData] = useState({
+    cityName: "",
+    destination: "",
+    description: "",
+    startDate: "",
+    endDate: "",
+    trainInfo: "",
+  });
 
   const searchCity = () => {
     axios
@@ -87,15 +95,16 @@ function LocSearch() {
   //   console.log(destination);
   //   console.log(cityData);
   const handlePost = () => {
+    const payLoad = {
+      ...data,
+      fromPlace: data.cityName.value,
+      toPlace: data.destination.value,
+    };
+    delete payLoad.cityName;
+    delete payLoad.destination;
+    // console.log(payLoad);
     axios
-      .post("/api/post", {
-        fromPlace: cityName,
-        toPlace: destination,
-        description,
-        startDate,
-        endDate,
-        trainInfo,
-      })
+      .post("/api/post", payLoad)
       .then((response) => {
         const { status, message } = response.data;
         if (status === 1) {
@@ -111,10 +120,19 @@ function LocSearch() {
   };
 
   const handleSwitch = (e) => {
-    console.log(e.target.checked);
+    // console.log(e.target.checked);
     setIsTravelling(e.target.checked);
   };
 
+  const handleChange = (e, fieldName = "") => {
+    const value = { ...data };
+    if (fieldName === "cityName" || fieldName === "destination") {
+      value[fieldName] = e;
+    } else {
+      value[e.target.name] = e.target.value;
+    }
+    setData(value);
+  };
   return (
     <div className="outerBox">
       <div className="container">
@@ -139,8 +157,11 @@ function LocSearch() {
               isSearchable={true}
               placeholder="Select City"
               options={cityArray}
+              value={data.cityName}
+              // name="cityName"
               //   optional chaining
-              onChange={(e) => setCityName(e?.value)}
+              // onChange={(e) => setCityName(e?.value)}
+              onChange={(e) => handleChange(e, "cityName")}
               isDisabled={!isTravelling}
             />
           </div>
@@ -155,7 +176,10 @@ function LocSearch() {
               placeholder="Select City"
               options={cityArray}
               isDisabled={!isTravelling}
-              onChange={(e) => setDestination(e?.value)}
+              value={data.destination}
+              // name="destination"
+              // onChange={(e) => handleChange(e?.value)}
+              onChange={(e) => handleChange(e, "destination")}
             />
           </div>
         </Grid>
@@ -166,7 +190,10 @@ function LocSearch() {
             <input
               type="date"
               className="date"
-              onChange={(e) => setStartDate(e.target.value)}
+              value={data.startDate}
+              name="startDate"
+              onChange={(e) => handleChange(e)}
+              //   onChange={handleChange}
             />
           </div>
         </Grid>
@@ -177,16 +204,22 @@ function LocSearch() {
             <input
               type="date"
               className="date"
-              onChange={(e) => setEndDate(e.target.value)}
+              value={data.endDate}
+              name="endDate"
+              onChange={(e) => handleChange(e)}
+              //   onChange={handleChange}
             />
           </div>
         </Grid>
 
         <Grid item sm={12} md={6}>
           <TextField
+            name="trainInfo"
             className="trainInfo"
             placeholder="Train Number"
-            onChange={(e) => setTrainInfo(e.target.value)}
+            value={data.trainInfo}
+            onChange={(e) => handleChange(e)}
+            // onChange={handleChange}
           ></TextField>
         </Grid>
 
@@ -198,9 +231,12 @@ function LocSearch() {
             rows={2}
             placeholder="What's on your mind?"
             disabled={!isTravelling}
+            value={data.description}
+            name="description"
             onChange={(e) => {
-              setDescription(e.target.value);
+              handleChange(e);
             }}
+            // onChange={handleChange}
           ></TextField>
         </Grid>
 
