@@ -1,6 +1,8 @@
 import { Button } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Card from "./Layouts/Card";
+import { Grid } from "@mui/material";
 
 function FetchData() {
   const [page, setPage] = useState(1);
@@ -16,7 +18,7 @@ function FetchData() {
     setPage((prev) => prev + 1);
   };
 
-  console.log(data);
+  // console.log(data);
 
   const fetchPost = () => {
     axios
@@ -35,7 +37,33 @@ function FetchData() {
 
   return (
     <>
-      <div>FetchData</div>
+      <div></div>
+      {data.map(
+        ({
+          id,
+          description,
+          fromPlace,
+          toPlace,
+          startDate,
+          endDate,
+          trainInfo,
+        }) => (
+          <Grid key={id} container direction="column">
+            <Grid item sm={12} xs={12} md={2}></Grid>
+            <Grid item sm={12} xs={12} md={8}>
+              <Card
+                description={description}
+                fromPlace={fromPlace}
+                toPlace={toPlace}
+                startDate={startDate}
+                endDate={endDate}
+                trainInfo={trainInfo}
+              />
+            </Grid>
+            <Grid item sm={12} xs={12} md={2}></Grid>
+          </Grid>
+        )
+      )}
       <Button
         variant="contained"
         style={{ margin: "20px" }}
