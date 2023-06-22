@@ -60,22 +60,32 @@ appController.updateProfile = (req, res) => {
 };
 
 appController.insertPost = (req, res) => {
-  const { fromPlace, toPlace, description, startDate, endDate, trainInfo } =
+  const { fromPlaceId, toPlaceId, description, startDate, endDate, trainInfo } =
     req.body;
 
   mysql(
-    `INSERT INTO post (description, fromPlace, toPlace, startDate, endDate, trainInfo, userId) VALUES ('${description}', '${fromPlace}', '${toPlace}', '${startDate}', '${endDate}', '${trainInfo}', '${req.id}')`
+    `INSERT INTO post (description, fromPlaceId, toPlaceId, startDate, endDate, trainInfo, userId) VALUES ('${description}', '${fromPlaceId}', '${toPlaceId}', '${startDate}', '${endDate}', '${trainInfo}', '${req.id}')`
   )
     .then((response) => {
       const data = parsedData(response);
 
       console.log(data);
       if (data.insertId) {
-        res.send({
-          message: `Successfully posted your travel plan!`,
-          data: {},
-          status: 1,
-        });
+        mysql(`call getPost(1, 0);`)
+          .then((response) => {
+            res.send({
+              message: `Successfully posted your travel plan!`,
+              data: response[0][0],
+              status: 1,
+            });
+          })
+          .catch((e) => {
+            console.log(e);
+            res.status(500).send({
+              message: `Some error while posting your travel plan!`,
+              status: 0,
+            });
+          });
       }
     })
     .catch((e) => {
@@ -91,7 +101,7 @@ appController.fetchPost = (req, res) => {
   const { page, row } = req.query;
   // const value = (page - 1) * row;
   const value = page <= 0 || isNaN(page) ? 0 : (page - 1) * row;
-  mysql(`SELECT * FROM post  ORDER BY ID DESC LIMIT ${row} OFFSET ${value}`)
+  mysql(`call getPost( ${row},${value});`)
     .then((response) => {
       res.send({ message: `Data present`, data: response, status: 1 });
     })
