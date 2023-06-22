@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./AlertDialog.css";
 import { Button, Grid, TextField } from "@mui/material";
+import propTypes from "prop-types";
 
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -15,20 +16,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function AlertDialog() {
+function AlertDialog({ data, setData }) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const [cityData, setCityData] = useState([]);
-
-  const [data, setData] = useState({
+  const [payload, setPayload] = useState({
     cityName: "",
     destination: "",
     description: "",
@@ -36,6 +31,19 @@ function AlertDialog() {
     endDate: "",
     trainInfo: "",
   });
+  const handleClose = () => {
+    setOpen(false);
+    setPayload({
+      cityName: "",
+      destination: "",
+      description: "",
+      startDate: "",
+      endDate: "",
+      trainInfo: "",
+    });
+  };
+
+  const [cityData, setCityData] = useState([]);
 
   const searchCity = () => {
     axios
@@ -61,9 +69,9 @@ function AlertDialog() {
   //   console.log(cityData);
   const handlePost = () => {
     const payLoad = {
-      ...data,
-      fromPlace: data.cityName.value,
-      toPlace: data.destination.value,
+      ...payload,
+      fromPlaceId: payload.cityName.value,
+      toPlaceId: payload.destination.value,
     };
     delete payLoad.cityName;
     delete payLoad.destination;
@@ -74,6 +82,10 @@ function AlertDialog() {
         const { status, message } = response.data;
         if (status === 1) {
           toast.success(`${message} 😄`);
+          const val = [...data];
+          val.unshift(response.data.data);
+          setData(val);
+          handleClose();
         } else {
           toast.error(`${message} 😅`);
         }
@@ -85,13 +97,13 @@ function AlertDialog() {
   };
 
   const handleChange = (e, fieldName = "") => {
-    const value = { ...data };
+    const value = { ...payload };
     if (fieldName === "cityName" || fieldName === "destination") {
       value[fieldName] = e;
     } else {
       value[e.target.name] = e.target.value;
     }
-    setData(value);
+    setPayload(value);
   };
 
   return (
@@ -121,7 +133,7 @@ function AlertDialog() {
                     isSearchable={true}
                     placeholder="Select City"
                     options={cityArray}
-                    value={data.cityName}
+                    value={payload.cityName}
                     // name="cityName"
                     //   optional chaining
                     // onChange={(e) => setCityName(e?.value)}
@@ -138,7 +150,7 @@ function AlertDialog() {
                     isSearchable={true}
                     placeholder="Select City"
                     options={cityArray}
-                    value={data.destination}
+                    value={payload.destination}
                     // name="destination"
                     // onChange={(e) => handleChange(e?.value)}
                     onChange={(e) => handleChange(e, "destination")}
@@ -152,7 +164,7 @@ function AlertDialog() {
                   <input
                     type="date"
                     className="date"
-                    value={data.startDate}
+                    value={payload.startDate}
                     name="startDate"
                     onChange={(e) => handleChange(e)}
                     //   onChange={handleChange}
@@ -166,7 +178,7 @@ function AlertDialog() {
                   <input
                     type="date"
                     className="date"
-                    value={data.endDate}
+                    value={payload.endDate}
                     name="endDate"
                     onChange={(e) => handleChange(e)}
                     //   onChange={handleChange}
@@ -179,7 +191,7 @@ function AlertDialog() {
                   name="trainInfo"
                   className="trainInfo"
                   placeholder="Train Number"
-                  value={data.trainInfo}
+                  value={payload.trainInfo}
                   onChange={(e) => handleChange(e)}
                   // onChange={handleChange}
                 ></TextField>
@@ -192,7 +204,7 @@ function AlertDialog() {
                   multiline
                   rows={2}
                   placeholder="What's on your mind?"
-                  value={data.description}
+                  value={payload.description}
                   name="description"
                   onChange={(e) => {
                     handleChange(e);
@@ -211,5 +223,9 @@ function AlertDialog() {
     </div>
   );
 }
+AlertDialog.propTypes = {
+  data: propTypes.array,
+  setData: propTypes.func,
+};
 
 export default AlertDialog;
