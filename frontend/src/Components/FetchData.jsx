@@ -4,6 +4,18 @@ import React, { useEffect, useState } from "react";
 import Card from "./Layouts/Card";
 import { Grid } from "@mui/material";
 import propTypes from "prop-types";
+import { styled } from "styled-components";
+
+const StyleButton = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 0px 0px 20px 0px;
+`;
+
+const ButtonComponent = styled(Button)`
+  margin-right: 15px;
+`;
 
 function FetchData({ data, setData }) {
   const [page, setPage] = useState(1);
@@ -69,18 +81,20 @@ function FetchData({ data, setData }) {
           </Grid>
         )
       )}
-      <Button
-        variant="contained"
-        style={{ margin: "20px" }}
-        onClick={prev}
-        disabled={page < 2}
-      >
-        Prev
-      </Button>
+      <StyleButton>
+        <ButtonComponent
+          className="prev"
+          variant="contained"
+          onClick={prev}
+          disabled={page < 2}
+        >
+          Prev
+        </ButtonComponent>
 
-      <Button variant="contained" onClick={next} disabled={data.length === 0}>
-        Next
-      </Button>
+        <Button variant="contained" onClick={next} disabled={data.length === 0}>
+          Next
+        </Button>
+      </StyleButton>
     </>
   );
 }
