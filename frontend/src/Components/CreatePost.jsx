@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./AlertDialog.css";
+import "./CreatePost.css";
 import { Button, Grid, TextField } from "@mui/material";
 import propTypes from "prop-types";
 
@@ -16,7 +16,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function AlertDialog({ data, setData }) {
+function CreatePost({ data, setData }) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -223,9 +223,9 @@ function AlertDialog({ data, setData }) {
     </div>
   );
 }
-AlertDialog.propTypes = {
+CreatePost.propTypes = {
   data: propTypes.array,
   setData: propTypes.func,
 };
 
-export default AlertDialog;
+export default CreatePost;
