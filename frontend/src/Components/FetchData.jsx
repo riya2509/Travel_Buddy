@@ -35,7 +35,7 @@ function FetchData({ data, setData }) {
 
   const fetchPost = () => {
     axios
-      .get("/api/post", { params: { page: page, row: 10 } })
+      .get("/api/post", { params: { page: page, row: 1 } })
       .then((response) => {
         setData(response.data.data[0]);
       })
