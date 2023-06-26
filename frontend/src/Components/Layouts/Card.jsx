@@ -27,6 +27,14 @@ const TextField = styled.span`
   font-size: 15px;
 `;
 
+const Dot = styled.div`
+  width: 10px;
+  height: 10px;
+  background-color: ${(props) => (props.isTravelling ? "green" : "grey")};
+  border-radius: 50%;
+  margin-left: 10px;
+`;
+
 const Top = styled.div`
   display: flex;
   flex-direction: row;
@@ -54,6 +62,8 @@ function Card(props) {
     name,
     college,
   } = props;
+  // console.log(moment().isSame(startDate));
+  console.log(moment.utc(startDate));
   return (
     <>
       <Container>
@@ -63,6 +73,7 @@ function Card(props) {
           </Avatar>
           <Label className="name">{name}</Label>
           <Label>{college}</Label>
+          <Dot isTravelling={moment().isSame(moment(startDate))}></Dot>
         </Top>
         Travelling From {fromPlace} to {toPlace}
         <br />

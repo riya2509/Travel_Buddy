@@ -7,7 +7,7 @@ const sql = Sqllib.createConnection({
   password: DB_PASSWORD,
   user: DB_USER,
   database: DB_DATABASE,
-  timezone: "+05:30",
+  // timezone: "+05:30",
 });
 
 sql.query(`select 1+1 as solution`, (err, result) => {
