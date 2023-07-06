@@ -30,7 +30,7 @@ const TextField = styled.span`
 const Dot = styled.div`
   width: 10px;
   height: 10px;
-  background-color: ${(props) => (props.isTravelling ? "green" : "grey")};
+  background-color: ${(props) => (props.$isTravelling ? "green" : "grey")};
   border-radius: 50%;
   margin-left: 10px;
 `;
@@ -62,7 +62,6 @@ function Card(props) {
     name,
     college,
   } = props;
-  // console.log(moment().isSame(startDate));
   console.log(moment.utc(startDate));
   return (
     <>
@@ -73,7 +72,7 @@ function Card(props) {
           </Avatar>
           <Label className="name">{name}</Label>
           <Label>{college}</Label>
-          <Dot isTravelling={moment().isSame(moment(startDate))}></Dot>
+          <Dot $isTravelling={moment().isSame(moment(startDate), "day")}></Dot>
         </Top>
         Travelling From {fromPlace} to {toPlace}
         <br />

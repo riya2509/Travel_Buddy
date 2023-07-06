@@ -1,10 +1,9 @@
-import { Button } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Card from "./Layouts/Card";
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import propTypes from "prop-types";
-import { styled } from "styled-components";
+import styled from "styled-components";
 
 const StyleButton = styled.div`
   display: flex;
@@ -35,7 +34,7 @@ function FetchData({ data, setData }) {
 
   const fetchPost = () => {
     axios
-      .get("/api/post", { params: { page: page, row: 1 } })
+      .get("/api/post", { params: { page: page, row: 10 } })
       .then((response) => {
         setData(response.data.data[0]);
       })
@@ -51,6 +50,7 @@ function FetchData({ data, setData }) {
   return (
     <>
       <div></div>
+
       {data.map(
         ({
           id,
