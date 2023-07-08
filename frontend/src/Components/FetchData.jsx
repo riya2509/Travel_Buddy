@@ -16,16 +16,15 @@ const ButtonComponent = styled(Button)`
   margin-right: 15px;
 `;
 const Divider = styled.div`
-  margin-right: 5px;
-  border-right: 2px solid #000;
-  padding-right: 5px;
-  margin-bottom: 15px;
+  background-color: #cecece;
+  padding: 10px 15px;
+  margin: 13px;
+  border-radius: 12px;
+  transition: transform 0.2s;
   &.active {
-    border-bottom: 4px solid #6400a0;
-    padding-bottom: 5px;
-  }
-  &:last-child {
-    border-right: none;
+    transform: scale(1.2);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px -1px,
+      rgba(0, 0, 0, 0.14) 0px 4px 5px 0px, rgba(0, 0, 0, 0.12) 0px 1px 10px 0px;
   }
 `;
 
