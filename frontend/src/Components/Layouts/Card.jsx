@@ -51,6 +51,7 @@ const Label = styled.div`
     flex: 1;
   }
 `;
+
 function Card(props) {
   const {
     description,
