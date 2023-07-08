@@ -63,7 +63,6 @@ function Card(props) {
     name,
     college,
   } = props;
-  console.log(moment.utc(startDate));
   return (
     <>
       <Container>
