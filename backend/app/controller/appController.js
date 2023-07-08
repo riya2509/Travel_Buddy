@@ -1,3 +1,4 @@
+import moment from "moment";
 import mysql from "../../databases/database.js";
 
 const appController = {};
@@ -60,22 +61,32 @@ appController.updateProfile = (req, res) => {
 };
 
 appController.insertPost = (req, res) => {
-  const { fromPlace, toPlace, description, startDate, endDate, trainInfo } =
+  const { fromPlaceId, toPlaceId, description, startDate, endDate, trainInfo } =
     req.body;
 
   mysql(
-    `INSERT INTO post (description, fromPlace, toPlace, startDate, endDate, trainInfo, userId) VALUES ('${description}', '${fromPlace}', '${toPlace}', '${startDate}', '${endDate}', '${trainInfo}', '${req.id}')`
+    `INSERT INTO post (description, fromPlaceId, toPlaceId, startDate, endDate, trainInfo, userId) VALUES ('${description}', '${fromPlaceId}', '${toPlaceId}', '${startDate}', '${endDate}', '${trainInfo}', '${req.id}')`
   )
     .then((response) => {
       const data = parsedData(response);
 
       console.log(data);
       if (data.insertId) {
-        res.send({
-          message: `Successfully posted your travel plan!`,
-          data: {},
-          status: 1,
-        });
+        mysql(`call getPost(1, 0);`)
+          .then((response) => {
+            res.send({
+              message: `Successfully posted your travel plan!`,
+              data: response[0][0],
+              status: 1,
+            });
+          })
+          .catch((e) => {
+            console.log(e);
+            res.status(500).send({
+              message: `Some error while posting your travel plan!`,
+              status: 0,
+            });
+          });
       }
     })
     .catch((e) => {
@@ -87,11 +98,50 @@ appController.insertPost = (req, res) => {
     });
 };
 
+const postQueryBuilder = ({ req, type = "all", value, row }) => {
+  let query = ``;
+  switch (type) {
+    case "myplan":
+      query = `where t1.userId = ${req.id}`;
+      break;
+    case "today":
+      query = `where t1.startDate = '${moment().format("YYYY-MM-DD")}'`;
+      break;
+
+    default:
+      query = ``;
+      break;
+  }
+  return `SELECT 
+  t4.name,
+  t4.college,
+  t1.id,
+  t1.description,
+  t1.endDate,
+  t1.startDate,
+  t1.trainInfo,
+  t2.Name AS fromPlace,
+  t3.Name AS toPlace,
+  t1.fromPlaceId,
+  t1.toPlaceId
+FROM
+  post AS t1
+      JOIN
+       master AS t4 ON t4.id = t1.userId
+      JOIN
+  city AS t2 ON t1.fromPlaceId = t2.ID
+      JOIN
+  city AS t3 ON t3.ID = t1.toPlaceId 
+  ${query}
+ORDER BY ID DESC LIMIT ${row} OFFSET ${value}`;
+};
+
 appController.fetchPost = (req, res) => {
-  const { page, row } = req.query;
+  const { page, row, type } = req.query;
   // const value = (page - 1) * row;
   const value = page <= 0 || isNaN(page) ? 0 : (page - 1) * row;
-  mysql(`SELECT * FROM post  ORDER BY ID DESC LIMIT ${row} OFFSET ${value}`)
+  console.log(postQueryBuilder({ req, type, value, row }));
+  mysql(postQueryBuilder({ req, type, value, row }))
     .then((response) => {
       res.send({ message: `Data present`, data: response, status: 1 });
     })
