@@ -72,11 +72,11 @@ appController.insertPost = (req, res) => {
 
       console.log(data);
       if (data.insertId) {
-        mysql(`call getPost(1, 0);`)
+        mysql(postQueryBuilder({ req, type: "all", value: 0, row: 1 }))
           .then((response) => {
             res.send({
               message: `Successfully posted your travel plan!`,
-              data: response[0][0],
+              data: response[0],
               status: 1,
             });
           })
@@ -140,7 +140,6 @@ appController.fetchPost = (req, res) => {
   const { page, row, type } = req.query;
   // const value = (page - 1) * row;
   const value = page <= 0 || isNaN(page) ? 0 : (page - 1) * row;
-  console.log(postQueryBuilder({ req, type, value, row }));
   mysql(postQueryBuilder({ req, type, value, row }))
     .then((response) => {
       res.send({ message: `Data present`, data: response, status: 1 });
