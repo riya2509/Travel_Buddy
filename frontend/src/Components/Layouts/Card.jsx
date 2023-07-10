@@ -4,6 +4,8 @@ import moment from "moment";
 import styled from "styled-components";
 import { Avatar } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
+// import StarRateIcon from '@mui/icons-material/StarRate';
 
 const Container = styled.div`
   display: flex;
@@ -52,6 +54,16 @@ const Label = styled.div`
   }
 `;
 
+const TravelDetails = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const TravelDetailsLeft = styled.div`
+  flex: 1;
+`;
+
 function Card(props) {
   const {
     description,
@@ -74,8 +86,12 @@ function Card(props) {
           <Label>{college}</Label>
           <Dot $isTravelling={moment().isSame(moment(startDate), "day")}></Dot>
         </Top>
-        Travelling From {fromPlace} to {toPlace}
-        <br />
+        <TravelDetails>
+          <TravelDetailsLeft>
+            Travelling From {fromPlace} to {toPlace}
+          </TravelDetailsLeft>
+          <StarOutlineIcon style={{ cursor: "pointer" }} />
+        </TravelDetails>
         Schedule: {moment(startDate).format("DD-MM-YYYY (dddd)")} -{" "}
         {moment(endDate).format("DD-MM-YYYY (dddd)")}
         <br />
