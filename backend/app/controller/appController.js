@@ -150,4 +150,29 @@ appController.fetchPost = (req, res) => {
     });
 };
 
+appController.like = (req, res) => {
+  const post_Id = req.query.post_Id;
+  const user_Id = req.id;
+
+  mysql(`call travel_buddy.like(${user_Id}, ${post_Id}, @flag)`)
+    .then((response) => {
+      const data = parsedData(response);
+      res.send({
+        message:
+          data[0][0].flag === 1
+            ? `Interested for this journey`
+            : `Not Interested for this journey`,
+        status: 1,
+        data: data[0][0].flag,
+      });
+    })
+    .catch((e) => {
+      console.log(e);
+      res.status(500).send({
+        message: `Some issue while performing the operation`,
+        status: 0,
+      });
+    });
+};
+
 export default appController;
