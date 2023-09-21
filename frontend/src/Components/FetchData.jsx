@@ -62,7 +62,7 @@ function FetchData({ data, setData }) {
     axios
       .get("/api/post", { params: { page: page, row: 10, type: query } })
       .then((response) => {
-        setData(response.data.data);
+        setData(response.data.data[0]);
       })
       .catch((e) => {
         console.log(e);
@@ -118,6 +118,8 @@ function FetchData({ data, setData }) {
           startDate,
           endDate,
           trainInfo,
+          likedByCurrentUser,
+          likes,
         }) => (
           <Grid key={id} container>
             <Grid item sm={3} xs={12} md={3}></Grid>
@@ -131,6 +133,8 @@ function FetchData({ data, setData }) {
                 startDate={startDate}
                 endDate={endDate}
                 trainInfo={trainInfo}
+                likedByCurrentUser={likedByCurrentUser}
+                likes={likes}
               />
             </Grid>
             <Grid item sm={3} xs={12} md={3}></Grid>

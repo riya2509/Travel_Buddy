@@ -140,7 +140,7 @@ appController.fetchPost = (req, res) => {
   const { page, row, type } = req.query;
   // const value = (page - 1) * row;
   const value = page <= 0 || isNaN(page) ? 0 : (page - 1) * row;
-  mysql(postQueryBuilder({ req, type, value, row }))
+  mysql(`call travel_buddy.getPost(${row}, ${value}, '')`)
     .then((response) => {
       res.send({ message: `Data present`, data: response, status: 1 });
     })

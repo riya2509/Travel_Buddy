@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { Avatar } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
+import StarIcon from "@mui/icons-material/Star";
 // import StarRateIcon from '@mui/icons-material/StarRate';
 
 const Container = styled.div`
@@ -74,6 +75,8 @@ function Card(props) {
     trainInfo,
     name,
     college,
+    likedByCurrentUser,
+    likes,
   } = props;
   return (
     <>
@@ -90,7 +93,12 @@ function Card(props) {
           <TravelDetailsLeft>
             Travelling From {fromPlace} to {toPlace}
           </TravelDetailsLeft>
-          <StarOutlineIcon style={{ cursor: "pointer" }} />
+          ({likes})
+          {likedByCurrentUser ? (
+            <StarIcon style={{ cursor: "pointer" }} />
+          ) : (
+            <StarOutlineIcon style={{ cursor: "pointer" }} />
+          )}
         </TravelDetails>
         Schedule: {moment(startDate).format("DD-MM-YYYY (dddd)")} -{" "}
         {moment(endDate).format("DD-MM-YYYY (dddd)")}
@@ -112,5 +120,7 @@ Card.propTypes = {
   trainInfo: propTypes.number,
   name: propTypes.string,
   college: propTypes.string,
+  likes: propTypes.number,
+  likedByCurrentUser: propTypes.number,
 };
 export default Card;
