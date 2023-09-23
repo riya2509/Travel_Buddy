@@ -6,6 +6,8 @@ import { Avatar } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import StarIcon from "@mui/icons-material/Star";
+import axios from "axios";
+import toast from "react-hot-toast";
 // import StarRateIcon from '@mui/icons-material/StarRate';
 
 const Container = styled.div`
@@ -67,7 +69,10 @@ const TravelDetailsLeft = styled.div`
 
 function Card(props) {
   const {
+    index,
+    setData,
     description,
+    id,
     fromPlace,
     toPlace,
     startDate,
@@ -78,6 +83,34 @@ function Card(props) {
     likedByCurrentUser,
     likes,
   } = props;
+
+  const handleLike = (id) => {
+    console.log(id);
+
+    axios
+      .get(`/api/like?post_Id=${id}`)
+      .then((response) => {
+        const { status, message, isLiked } = response.data;
+        if (status === 1) {
+          setData((prevData) => {
+            console.log(isLiked);
+
+            const value = [...prevData];
+            value[index].likedByCurrentUser = isLiked ? 1 : 0;
+            value[index].likes = isLiked
+              ? value[index].likes + 1
+              : value[index].likes - 1;
+            return value;
+          });
+          toast.success(`${message} 🙂`);
+        } else {
+          toast.error(`${message} 😥`);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   return (
     <>
       <Container>
@@ -95,9 +128,15 @@ function Card(props) {
           </TravelDetailsLeft>
           ({likes})
           {likedByCurrentUser ? (
-            <StarIcon style={{ cursor: "pointer" }} />
+            <StarIcon
+              style={{ cursor: "pointer" }}
+              onClick={() => handleLike(id)}
+            />
           ) : (
-            <StarOutlineIcon style={{ cursor: "pointer" }} />
+            <StarOutlineIcon
+              style={{ cursor: "pointer" }}
+              onClick={() => handleLike(id)}
+            />
           )}
         </TravelDetails>
         Schedule: {moment(startDate).format("DD-MM-YYYY (dddd)")} -{" "}
@@ -122,5 +161,7 @@ Card.propTypes = {
   college: propTypes.string,
   likes: propTypes.number,
   likedByCurrentUser: propTypes.number,
+  setData: propTypes.func,
+  index: propTypes.number,
 };
 export default Card;

@@ -140,7 +140,7 @@ appController.fetchPost = (req, res) => {
   const { page, row, type } = req.query;
   // const value = (page - 1) * row;
   const value = page <= 0 || isNaN(page) ? 0 : (page - 1) * row;
-  mysql(`call travel_buddy.getPost(${row}, ${value}, '')`)
+  mysql(`call travel_buddy.getPost(${row}, ${value}, ${req.id}, '')`)
     .then((response) => {
       res.send({ message: `Data present`, data: response, status: 1 });
     })
@@ -154,25 +154,33 @@ appController.like = (req, res) => {
   const post_Id = req.query.post_Id;
   const user_Id = req.id;
 
-  mysql(`call travel_buddy.like(${user_Id}, ${post_Id}, @flag)`)
-    .then((response) => {
-      const data = parsedData(response);
-      res.send({
-        message:
-          data[0][0].flag === 1
-            ? `Interested for this journey`
-            : `Not Interested for this journey`,
-        status: 1,
-        data: data[0][0].flag,
-      });
-    })
-    .catch((e) => {
-      console.log(e);
-      res.status(500).send({
-        message: `Some issue while performing the operation`,
-        status: 0,
-      });
+  if (!post_Id || !user_Id) {
+    res.status(400).send({
+      message: `Please send proper payload`,
+      status: 0,
     });
+  } else {
+    mysql(`call travel_buddy.like(${user_Id}, ${post_Id}, @flag)`)
+      .then((response) => {
+        const data = parsedData(response);
+        res.send({
+          message:
+            data[0][0].flag === 1
+              ? `Interested for this journey`
+              : `Not Interested for this journey`,
+          status: 1,
+          data: data[0][0].flag,
+          isLiked: data[0][0].flag === 1,
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+        res.status(500).send({
+          message: `Some issue while performing the operation`,
+          status: 0,
+        });
+      });
+  }
 };
 
 export default appController;

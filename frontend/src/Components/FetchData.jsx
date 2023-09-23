@@ -108,23 +108,28 @@ function FetchData({ data, setData }) {
         </Divider>
       </div>
       {data.map(
-        ({
-          id,
-          name,
-          college,
-          description,
-          fromPlace,
-          toPlace,
-          startDate,
-          endDate,
-          trainInfo,
-          likedByCurrentUser,
-          likes,
-        }) => (
+        (
+          {
+            id,
+            name,
+            college,
+            description,
+            fromPlace,
+            toPlace,
+            startDate,
+            endDate,
+            trainInfo,
+            likedByCurrentUser,
+            likes,
+          },
+          index
+        ) => (
           <Grid key={id} container>
             <Grid item sm={3} xs={12} md={3}></Grid>
             <Grid item sm={6} xs={12} md={6}>
               <Card
+                index={index}
+                setData={setData}
                 name={name}
                 college={college}
                 description={description}
@@ -135,6 +140,7 @@ function FetchData({ data, setData }) {
                 trainInfo={trainInfo}
                 likedByCurrentUser={likedByCurrentUser}
                 likes={likes}
+                id={id}
               />
             </Grid>
             <Grid item sm={3} xs={12} md={3}></Grid>
