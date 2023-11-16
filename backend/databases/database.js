@@ -12,7 +12,7 @@ const sql = Sqllib.createConnection({
 
 sql.query(`select 1+1 as solution`, (err, result) => {
   if (err) {
-    console.log(error);
+    console.log(err);
   } else {
     console.log(`Database connected at ${new Date().toLocaleString()}`);
   }
