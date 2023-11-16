@@ -4,6 +4,11 @@ import moment from "moment";
 import styled from "styled-components";
 import { Avatar } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
+import StarIcon from "@mui/icons-material/Star";
+import axios from "axios";
+import toast from "react-hot-toast";
+// import StarRateIcon from '@mui/icons-material/StarRate';
 
 const Container = styled.div`
   display: flex;
@@ -52,9 +57,22 @@ const Label = styled.div`
   }
 `;
 
+const TravelDetails = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+const TravelDetailsLeft = styled.div`
+  flex: 1;
+`;
+
 function Card(props) {
   const {
+    index,
+    setData,
     description,
+    id,
     fromPlace,
     toPlace,
     startDate,
@@ -62,8 +80,37 @@ function Card(props) {
     trainInfo,
     name,
     college,
+    likedByCurrentUser,
+    likes,
   } = props;
-  console.log(moment.utc(startDate));
+
+  const handleLike = (id) => {
+    console.log(id);
+
+    axios
+      .get(`/api/like?post_Id=${id}`)
+      .then((response) => {
+        const { status, message, isLiked } = response.data;
+        if (status === 1) {
+          setData((prevData) => {
+            console.log(isLiked);
+
+            const value = [...prevData];
+            value[index].likedByCurrentUser = isLiked ? 1 : 0;
+            value[index].likes = isLiked
+              ? value[index].likes + 1
+              : value[index].likes - 1;
+            return value;
+          });
+          toast.success(`${message} 🙂`);
+        } else {
+          toast.error(`${message} 😥`);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   return (
     <>
       <Container>
@@ -75,8 +122,23 @@ function Card(props) {
           <Label>{college}</Label>
           <Dot $isTravelling={moment().isSame(moment(startDate), "day")}></Dot>
         </Top>
-        Travelling From {fromPlace} to {toPlace}
-        <br />
+        <TravelDetails>
+          <TravelDetailsLeft>
+            Travelling From {fromPlace} to {toPlace}
+          </TravelDetailsLeft>
+          ({likes})
+          {likedByCurrentUser ? (
+            <StarIcon
+              style={{ cursor: "pointer" }}
+              onClick={() => handleLike(id)}
+            />
+          ) : (
+            <StarOutlineIcon
+              style={{ cursor: "pointer" }}
+              onClick={() => handleLike(id)}
+            />
+          )}
+        </TravelDetails>
         Schedule: {moment(startDate).format("DD-MM-YYYY (dddd)")} -{" "}
         {moment(endDate).format("DD-MM-YYYY (dddd)")}
         <br />
@@ -97,5 +159,9 @@ Card.propTypes = {
   trainInfo: propTypes.number,
   name: propTypes.string,
   college: propTypes.string,
+  likes: propTypes.number,
+  likedByCurrentUser: propTypes.number,
+  setData: propTypes.func,
+  index: propTypes.number,
 };
 export default Card;
