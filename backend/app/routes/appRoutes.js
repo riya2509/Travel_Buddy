@@ -11,5 +11,6 @@ appRoutes
   .route("/post")
   .post(appController.insertPost)
   .get(appController.fetchPost);
+appRoutes.get("/like", appController.like);
 
 export default appRoutes;
