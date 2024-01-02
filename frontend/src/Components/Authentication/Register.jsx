@@ -29,6 +29,7 @@ function Register() {
       .then((response) => {
         console.log(response);
         const { status, message } = response.data;
+        // response.data.status and response.data.message
         if (status === 1) {
           toast.success(message);
         } else {
